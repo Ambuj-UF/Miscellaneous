@@ -31,7 +31,6 @@ from Bio.AlignIO import MultipleSeqAlignment
 
 
 files = glob.glob("*.nex")
-print files
 print "Enter the taxon name \n"
 usrID = raw_input('\n')
 for filename in files:
