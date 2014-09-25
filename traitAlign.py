@@ -22,16 +22,16 @@ import csv
 from Bio import SeqIO
 
 with open('trait.csv', 'rb') as csvfile:
-  csvData = csv.reader(csvfile, delimiter=' ', quotechar='|')
-  sp_name = [row for row in csvData]
+      csvData = csv.reader(csvfile, delimiter=' ', quotechar='|')
+      sp_name = [row for row in csvData]
     
 handle = open('alignment.fasta', 'rU')
 records = list(SeqIO.parse(handle, 'fasta'))
 
 newRec = list()
 for rec in records:
-  if rec.id in sp_name:
-    newRec.append(rec)
+      if rec.id in sp_name:
+          newRec.append(rec)
     
 with open('output.fasta', 'w') as fp:
   SeqIO.write(newRec, fp, 'fasta')
