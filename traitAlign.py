@@ -31,7 +31,7 @@ records = list(SeqIO.parse(handle, 'fasta'))
 newRec = list()
 for rec in records:
       if rec.id in sp_name:
-          newRec.append(rec)
+            newRec.append(rec)
     
 with open('output.fasta', 'w') as fp:
-  SeqIO.write(newRec, fp, 'fasta')
+      SeqIO.write(newRec, fp, 'fasta')
