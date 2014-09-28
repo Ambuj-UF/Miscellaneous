@@ -20,28 +20,54 @@
 ################################################################################################################
 
 
-
+import argparse
+import textwrap
 from Bio import SeqIO
 from Bio.Seq import Seq
 from Bio.Alphabet import generic_dna
 
-handle = open('input.phy', 'rU')
-records = list(SeqIO.parse(handle, 'phylip-relaxed'))
+parser = argparse.ArgumentParser(prog='Remove-Indel',
+                                 version= '1.0',
+                                 formatter_class=argparse.RawDescriptionHelpFormatter,
+                                 description=textwrap.dedent('''\
+    ----------------------------------------------------------------------------------------------------------
+    \t\t\t Designed at Kimbal-Braun Lab Group, University of Florida
+    
+    ----------------------------------------------------------------------------------------------------------
+    
+    '''))
+
+parser.add_argument('-i', type=str, required = True, help='Enter input alignment filename')
+parser.add_argument('-o', type=str, required = True, help='Enter output alignment filename')
+parser.add_argument('-itype', type=str, required = True, choices=['fasta', 'nexus', 'phylip', 'phylip-interleived', 'phylip-relaxed'], help='Enter input alignment file format')
+parser.add_argument('-otype', type=str, required = True, choices=['fasta', 'nexus', 'phylip', 'phylip-interleived', 'phylip-relaxed'], help='Enter output alignment file format')
+
+args = parser.parse_args()
+
+handle = open(args.i, 'rU')
+records = list(SeqIO.parse(handle, args.itype))
 
 def split(str, num):
     return [ str[start:start+num] for start in range(0, len(str), num) ]
 
-for i, rec in enumerate(records):
-    newSeq = Seq("", generic_dna)
-    seqData = split(rec.seq, 3)
-    for j, data in enumerate(seqData):
-        if '-' in data and data.count('-') != 3 or 'TGA' in data or 'TAG' in data or 'TAA' in data:
-            seqData[j] = Seq("---", generic_dna)
-    for newData in seqData:
-        newSeq = newSeq + newData
 
-    records[i].seq = newSeq
+def main():
+    for i, rec in enumerate(records):
+        newSeq = Seq("", generic_dna)
+        seqData = split(rec.seq, 3)
+        for j, data in enumerate(seqData):
+            if '-' in data and data.count('-') != 3 or 'TGA' in data or 'TAG' in data or 'TAA' in data:
+                seqData[j] = Seq("---", generic_dna)
+        for newData in seqData:
+            newSeq = newSeq + newData
 
-with open('output.phy', 'w') as fp:
-    SeqIO.write(records, fp, 'phylip-relaxed')
+        records[i].seq = newSeq
+
+    with open(args.o, 'w') as fp:
+        SeqIO.write(records, fp, args.otype)
+
+
+
+if __name__ == "__main__":
+    main()
 
