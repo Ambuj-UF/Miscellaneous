@@ -1,5 +1,6 @@
 ################################################################################################################
 # Tool for removing indels and stop codons from the alignment file                                             #
+# It also performes species centric alignment correction                                                       #
 #                                                                                                              #
 # Copyright (C) {2014}  {Ambuj Kumar, Kimball-Braun lab group, Biology Department, University of Florida}      #
 #                                                                                                              #
