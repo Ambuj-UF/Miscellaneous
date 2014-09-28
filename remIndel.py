@@ -20,12 +20,18 @@
 #                                                                                                              #
 ################################################################################################################
 
+
+import sys
 import argparse
 import textwrap
-from Bio import SeqIO
-from Bio.Seq import Seq
-from Bio.Alphabet import generic_dna
-from Bio.Align import MultipleSequenceAlignment as msa
+
+try:
+    from Bio import SeqIO
+    from Bio.Seq import Seq
+    from Bio.Alphabet import generic_dna
+    from Bio.Align import MultipleSequenceAlignment as msa
+except:
+    sys.exit("Biopython not found on the system")
 
 parser = argparse.ArgumentParser(prog='Remove-Indel',
                                  version= '1.0',
