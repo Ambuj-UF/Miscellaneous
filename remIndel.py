@@ -25,7 +25,7 @@ from Bio import SeqIO
 from Bio.Seq import Seq
 from Bio.Alphabet import generic_dna
 
-handle = open('ASPM.phy', 'rU')
+handle = open('input.phy', 'rU')
 records = list(SeqIO.parse(handle, 'phylip-relaxed'))
 
 def split(str, num):
@@ -35,9 +35,7 @@ for i, rec in enumerate(records):
     newSeq = Seq("", generic_dna)
     seqData = split(rec.seq, 3)
     for j, data in enumerate(seqData):
-        if '-' in data and data.count('-') != 3:
-            seqData[j] = Seq("---", generic_dna)
-        elif 'TGA' in data or 'TAG' in data or 'TAA' in data:
+        if '-' in data and data.count('-') != 3 or 'TGA' in data or 'TAG' in data or 'TAA' in data:
             seqData[j] = Seq("---", generic_dna)
     for newData in seqData:
         newSeq = newSeq + newData
